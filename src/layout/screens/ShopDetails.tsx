@@ -18,8 +18,12 @@ const ShopDetails: FC<IShopDetails> = ({ latitude, longitude, index }) => {
 		<div>
 			{index && (
 				<div>
-					<div>Latitude: {data[index].Latitude}</div>
-					<div>Longitude: {data[index].Longitude}</div>
+					{/* <div>Latitude: {data[index].Latitude}</div>
+					<div>Longitude: {data[index].Longitude}</div> */}
+					<div>Shop: {data[index].Name}</div>
+					<div>Address: {data[index].Address}</div>
+					<div>Contacts: {data[index].Contacts}</div>
+					<div>Description: {data[index].Description}</div>
 				</div>
 			)}
 		</div>
