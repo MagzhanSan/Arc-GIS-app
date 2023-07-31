@@ -27,3 +27,9 @@ export interface ICoordinates extends IModalOpen {
 	longitude: number | undefined
 	index?: number
 }
+
+export interface ITodoData {
+	id: number
+	name: string
+	data: IGood[]
+}

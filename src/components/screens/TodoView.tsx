@@ -1,5 +1,7 @@
-import data from '../../data/todo.json'
-import { IGood } from '../../utils/item.interface'
+import { AppDispatch } from '../../store'
+import { getById } from '../../store/slices/todoGetByIdSlice'
+import { todoListDone } from '../../store/slices/todoListDoneSlice'
+import { IGood, ITodoData } from '../../utils/item.interface'
 import NoDataShopDetails from '../layout/NoDataShopDetails'
 import {
 	Box,
@@ -12,37 +14,31 @@ import {
 	Typography,
 } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 interface ITodoView {
 	id: number | undefined
 }
 
-interface ITodoData {
-	id: number
-	name: string
-	data: IGood[]
-}
-
 const TodoView: FC<ITodoView> = ({ id }) => {
 	const [todoData, setTodoData] = useState<ITodoData | null>(null)
 	const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({})
-	const [isLoading, setIsLoading] = useState(true)
+	const todoList = useSelector((state: any) => state.todo.todoList)
+	const loading = useSelector((state: any) => state.todo.isLoading)
+	const todo = useSelector((state: any) => state.todoById.data)
+	const isLoading = useSelector((state: any) => state.todoById.isLoading)
+
+	const dispatch = useDispatch<AppDispatch>()
 
 	useEffect(() => {
-		setIsLoading(true)
-		setTimeout(() => {
-			const fetchData = () => {
-				const resultTodo = data.find((item: ITodoData) => item.id === id)
-				if (resultTodo) {
-					setTodoData(resultTodo)
-				} else {
-					setTodoData(null)
-				}
-				setIsLoading(false)
-			}
-			fetchData()
-		}, 1000)
-	}, [id])
+		if (id) {
+			dispatch(getById(id))
+		}
+	}, [id, dispatch, todoList])
+
+	useEffect(() => {
+		setTodoData(todo)
+	}, [todo])
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setCheckedItems({
@@ -53,17 +49,11 @@ const TodoView: FC<ITodoView> = ({ id }) => {
 
 	const handleDone = () => {
 		if (todoData) {
-			setTodoData((prevState: ITodoData | null) => {
-				if (prevState) {
-					return {
-						...prevState,
-						data: prevState.data.filter(
-							(item: IGood) => !checkedItems[item.name]
-						),
-					}
-				}
-				return null
-			})
+			const updatedData = {
+				...todoData,
+				data: todoData.data.filter((item: IGood) => !checkedItems[item.name]),
+			}
+			dispatch(todoListDone({ id: todoData.id, data: updatedData }))
 		}
 	}
 
@@ -90,7 +80,7 @@ const TodoView: FC<ITodoView> = ({ id }) => {
 				>
 					<CircularProgress />
 				</Box>
-			) : !todoData ? (
+			) : !todoData && todoData === null ? (
 				<NoDataShopDetails />
 			) : (
 				<>
@@ -103,7 +93,7 @@ const TodoView: FC<ITodoView> = ({ id }) => {
 					<List
 						sx={{ width: '100%', maxWidth: 352, bgcolor: 'background.paper' }}
 					>
-						{todoData.data.map((value: any) => (
+						{todoData?.data?.map((value: IGood) => (
 							<ListItem key={value.name}>
 								<ListItemText
 									primary={
@@ -133,7 +123,7 @@ const TodoView: FC<ITodoView> = ({ id }) => {
 							justifyContent: 'center',
 						}}
 					>
-						<Button variant='contained' onClick={handleDone}>
+						<Button variant='contained' disabled={loading} onClick={handleDone}>
 							Сделано!
 						</Button>
 					</Box>

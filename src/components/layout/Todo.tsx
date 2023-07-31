@@ -1,3 +1,6 @@
+import { AppDispatch } from '../../store'
+import { getById } from '../../store/slices/todoGetByIdSlice'
+import { todoListSelected } from '../../store/slices/todoListSelectSlice'
 import { IGood, IModalOpen } from '../../utils/item.interface'
 import NoDataShopDetails from './NoDataShopDetails'
 import AddIcon from '@mui/icons-material/Add'
@@ -14,6 +17,7 @@ import {
 	Typography,
 } from '@mui/material'
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 interface ITodo extends IModalOpen {
 	data: IGood[]
@@ -73,6 +77,15 @@ const ProductItem: FC<{
 const Todo: FC<ITodo> = ({ id, name, data, handleOpen }) => {
 	const [todo, setTodo] = useState<IGood[]>([])
 	const [todos, setTodos] = useState([])
+	const selectTodo = useSelector((state: any) => state.selectTodo.todoList)
+	const dispatch = useDispatch<AppDispatch>()
+	const todoById = useSelector((state: any) => state.todoById.data)
+
+	useEffect(() => {
+		if (id) {
+			dispatch(getById(id))
+		}
+	}, [id, dispatch])
 
 	console.log(id)
 	useEffect(() => {
@@ -138,16 +151,16 @@ const Todo: FC<ITodo> = ({ id, name, data, handleOpen }) => {
 		[handleRemoveAll]
 	)
 
-	const handleConvertToJson = useCallback((myObject: object) => {
+	const handlePost = async (myObject: IGood[]) => {
 		const finalObject = {
 			id,
 			name,
 			data: myObject,
 		}
-		const jsonString = JSON.stringify(finalObject)
+
+		dispatch(todoListSelected(finalObject))
 		setTodo([])
-		console.log(jsonString)
-	}, [])
+	}
 
 	const todoList = useMemo(
 		() =>
@@ -203,7 +216,7 @@ const Todo: FC<ITodo> = ({ id, name, data, handleOpen }) => {
 				{todoList}
 			</List>
 			{todo.length > 0 && (
-				<Button variant='contained' onClick={() => handleConvertToJson(todo)}>
+				<Button variant='contained' onClick={() => handlePost(todo)}>
 					Сохранить
 				</Button>
 			)}

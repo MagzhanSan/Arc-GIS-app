@@ -1,0 +1,35 @@
+{
+  "todo": [
+    {
+      "name": "Бизнес-центр Альфа",
+      "id": 1,
+      "data": [
+        {
+          "name": "snacks",
+          "price": 700,
+          "count": 1
+        },
+        {
+          "name": "chocolate",
+          "price": 3600,
+          "count": 3
+        },
+        {
+          "name": "vegetables",
+          "price": 1800,
+          "count": 2
+        },
+        {
+          "name": "fruits",
+          "price": 1500,
+          "count": 1
+        },
+        {
+          "name": "juice",
+          "price": 1200,
+          "count": 2
+        }
+      ]
+    }
+  ]
+}
