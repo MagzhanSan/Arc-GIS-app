@@ -80,7 +80,7 @@ const TodoView: FC<ITodoView> = ({ id }) => {
 				>
 					<CircularProgress />
 				</Box>
-			) : !todoData && todoData === null ? (
+			) : !todoData ? (
 				<NoDataShopDetails />
 			) : (
 				<>
