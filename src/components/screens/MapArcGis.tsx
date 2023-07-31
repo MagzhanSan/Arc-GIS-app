@@ -136,7 +136,6 @@ const MapArcGis: FC = () => {
 									item.Latitude === polygonCoordinates[1] &&
 									item.Longitude === polygonCoordinates[0]
 							)
-							console.log(id?.id)
 							// setSelectedPolygon({
 							// 	Latitude: polygonCoordinates[1],
 							// 	Longitude: polygonCoordinates[0],

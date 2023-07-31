@@ -87,7 +87,6 @@ const Todo: FC<ITodo> = ({ id, name, data, handleOpen }) => {
 		}
 	}, [id, dispatch])
 
-	console.log(id)
 	useEffect(() => {
 		if (todo.length > 0) {
 			if (handleOpen) {

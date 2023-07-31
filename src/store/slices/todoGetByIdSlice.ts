@@ -32,10 +32,11 @@ export const todoGetByIdSlice = createSlice({
 		builder.addCase(getById.fulfilled, (state, action) => {
 			state.isLoading = false
 			state.data = action.payload
+			state.error = null
 		})
 		builder.addCase(getById.rejected, (state, action) => {
 			state.isLoading = false
-			state.error = null
+			state.error = action.error
 		})
 	},
 })

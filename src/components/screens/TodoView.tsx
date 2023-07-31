@@ -27,6 +27,7 @@ const TodoView: FC<ITodoView> = ({ id }) => {
 	const loading = useSelector((state: any) => state.todo.isLoading)
 	const todo = useSelector((state: any) => state.todoById.data)
 	const isLoading = useSelector((state: any) => state.todoById.isLoading)
+	const error = useSelector((state: any) => state.todoById.error)
 
 	const dispatch = useDispatch<AppDispatch>()
 
@@ -34,11 +35,15 @@ const TodoView: FC<ITodoView> = ({ id }) => {
 		if (id) {
 			dispatch(getById(id))
 		}
-	}, [id, dispatch, todoList])
+	}, [id, todoList])
 
 	useEffect(() => {
-		setTodoData(todo)
-	}, [todo])
+		if (error) {
+			setTodoData(null)
+		} else if (!isLoading) {
+			setTodoData(todo)
+		}
+	}, [todo, isLoading, error])
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setCheckedItems({
