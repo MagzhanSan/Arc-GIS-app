@@ -1,3 +1,4 @@
+import data from '../../data/todo.json'
 import { IGood } from '../../utils/item.interface'
 import NoDataShopDetails from '../layout/NoDataShopDetails'
 import {
@@ -10,7 +11,6 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material'
-import axios from 'axios'
 import { FC, useEffect, useState } from 'react'
 
 interface ITodoView {
@@ -31,11 +31,8 @@ const TodoView: FC<ITodoView> = ({ id }) => {
 	useEffect(() => {
 		setIsLoading(true)
 		setTimeout(() => {
-			const fetchData = async () => {
-				const response = await axios.get(`${process.env.PUBLIC_URL}/todo.json`)
-				const resultTodo = response.data.find(
-					(item: ITodoData) => item.id === id
-				)
+			const fetchData = () => {
+				const resultTodo = data.find((item: ITodoData) => item.id === id)
 				if (resultTodo) {
 					setTodoData(resultTodo)
 				} else {
