@@ -1,0 +1,26 @@
+[
+	{
+		"id": 3,
+		"name": "Гостиница Гамма",
+		"data": [
+			{ "name": "chocolate", "price": 4800, "count": 4 },
+			{ "name": "fruits", "price": 10500, "count": 7 },
+			{ "name": "juice", "price": 3600, "count": 6 },
+			{ "name": "milk", "price": 4000, "count": 4 },
+			{ "name": "snacks", "price": 1400, "count": 2 },
+			{ "name": "vegetables", "price": 2700, "count": 3 },
+			{ "name": "tea", "price": 1200, "count": 3 },
+			{ "name": "water", "price": 900, "count": 3 }
+		]
+	},
+	{
+		"id": 9,
+		"name": "Театр Лямбда",
+		"data": [
+			{ "name": "snacks", "price": 4900, "count": 7 },
+			{ "name": "vegetables", "price": 5400, "count": 6 },
+			{ "name": "fruits", "price": 1500, "count": 1 },
+			{ "name": "chocolate", "price": 1200, "count": 1 }
+		]
+	}
+]
